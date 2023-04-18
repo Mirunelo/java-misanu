@@ -1,0 +1,37 @@
+<mxfile host="app.diagrams.net" modified="2023-04-18T19:22:18.632Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="pgx4wWef2VRa4UgW4Dd5" version="21.1.9" type="device">
+  <diagram id="d6RJ3YZE5-ButxzI6lzX" name="Page-1">
+    <mxGraphModel dx="1247" dy="963" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sDLqpYnmgZINBV7oImiR-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;fontColor=#000000;" parent="1" source="sDLqpYnmgZINBV7oImiR-1" target="sDLqpYnmgZINBV7oImiR-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sDLqpYnmgZINBV7oImiR-1" value="Početak" style="ellipse;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=16;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="340" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sDLqpYnmgZINBV7oImiR-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;fontColor=#000000;" parent="1" source="sDLqpYnmgZINBV7oImiR-2" target="sDLqpYnmgZINBV7oImiR-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sDLqpYnmgZINBV7oImiR-2" value="s" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontSize=16;fontColor=#000000;labelBackgroundColor=none;direction=west;" parent="1" vertex="1">
+          <mxGeometry x="340" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sDLqpYnmgZINBV7oImiR-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;fontColor=#000000;" parent="1" source="sDLqpYnmgZINBV7oImiR-4" target="sDLqpYnmgZINBV7oImiR-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sDLqpYnmgZINBV7oImiR-4" value="h = s / 3600&lt;br&gt;&lt;br&gt;m = s % 3600 / 60&lt;br&gt;&lt;br&gt;s = s % 3600 % 60" style="whiteSpace=wrap;html=1;fontSize=16;fontColor=#000000;labelBackgroundColor=none;" parent="1" vertex="1">
+          <mxGeometry x="300" y="360" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="sDLqpYnmgZINBV7oImiR-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;fontColor=#000000;" parent="1" source="sDLqpYnmgZINBV7oImiR-6" target="sDLqpYnmgZINBV7oImiR-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sDLqpYnmgZINBV7oImiR-6" value="h, m, sec" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontSize=16;fontColor=#000000;labelBackgroundColor=none;" parent="1" vertex="1">
+          <mxGeometry x="340" y="530" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sDLqpYnmgZINBV7oImiR-8" value="Kraj" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fontColor=#000000;labelBackgroundColor=none;" parent="1" vertex="1">
+          <mxGeometry x="340" y="670" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,37 @@
+<mxfile host="app.diagrams.net" modified="2023-04-18T19:20:12.658Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="HRQldI1PvcnrXsH4lBCK" version="21.1.9" type="device">
+  <diagram id="QpSmfYPYcdVQsN0eIb_k" name="Page-1">
+    <mxGraphModel dx="1247" dy="963" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="20WM5mdzcrksYfoG2_72-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;fontColor=#000000;" parent="1" source="20WM5mdzcrksYfoG2_72-1" target="20WM5mdzcrksYfoG2_72-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20WM5mdzcrksYfoG2_72-1" value="Početak" style="ellipse;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=16;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="340" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="20WM5mdzcrksYfoG2_72-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;fontColor=#000000;" parent="1" source="20WM5mdzcrksYfoG2_72-2" target="20WM5mdzcrksYfoG2_72-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20WM5mdzcrksYfoG2_72-2" value="broj" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontSize=16;fontColor=#000000;labelBackgroundColor=none;direction=west;" parent="1" vertex="1">
+          <mxGeometry x="340" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="20WM5mdzcrksYfoG2_72-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;fontColor=#000000;" parent="1" source="20WM5mdzcrksYfoG2_72-4" target="20WM5mdzcrksYfoG2_72-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20WM5mdzcrksYfoG2_72-4" value="r = broj / 10 - broj % 10" style="whiteSpace=wrap;html=1;fontSize=16;fontColor=#000000;labelBackgroundColor=none;" parent="1" vertex="1">
+          <mxGeometry x="290" y="390" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="20WM5mdzcrksYfoG2_72-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;fontColor=#000000;" parent="1" source="20WM5mdzcrksYfoG2_72-6" target="20WM5mdzcrksYfoG2_72-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20WM5mdzcrksYfoG2_72-6" value="r" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontSize=16;fontColor=#000000;labelBackgroundColor=none;" parent="1" vertex="1">
+          <mxGeometry x="340" y="530" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="20WM5mdzcrksYfoG2_72-8" value="Kraj" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fontColor=#000000;labelBackgroundColor=none;" parent="1" vertex="1">
+          <mxGeometry x="340" y="670" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
