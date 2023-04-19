@@ -40,7 +40,7 @@ public class Operatori {
 		System.out.println("Ostatak = " + ostatak);
 		
 		float tacnoDeljenje = 17f / 3f;
-		System.out.println("Tacno deljenje: " + tacnoDeljenje);
+		System.out.println("Tačno deljenje: " + tacnoDeljenje);
 		
 		double provera = (double)50/3;
 		System.out.println("Provera = " + provera);
