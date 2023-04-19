@@ -1,0 +1,282 @@
+#############
+###   A   ###
+#############
+
+CREATE DATABASE poslasticara
+
+CREATE TABLE poslasticare(
+    poslasticaraID int PRIMARY KEY,
+    naziv varchar(45) NOT null,
+    grad varchar(60) NOT null,
+    ulica varchar(100) NOT null,
+    broj varchar(10) NOT null
+)ENGINE = INNODB;
+
+CREATE TABLE sladoledi(
+    sladoledID int PRIMARY KEY,
+    nazivSladoleda varchar(45) NOT null
+)ENGINE = INNODB;
+
+CREATE TABLE poslasticaresladoledi(
+    poslasticarcnicaSladoled int PRIMARY KEY AUTO_INCREMENT,
+    poslasticaraID int,
+    sladoledID int,
+    FOREIGN KEY (poslasticaraID) REFERENCES poslasticare (poslasticaraID)
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION,
+    FOREIGN KEY (sladoledID) REFERENCES sladoledi (sladoledID)
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION
+)ENGINE = INNODB;
+
+CREATE TABLE deca(
+    deteID int PRIMARY KEY,
+    ime varchar(45) NOT null,
+    prezime varchar(45) NOT null,
+    najdraziSladoled varchar(45) NOT null
+)ENGINE = INNODB;
+
+CREATE TABLE poslasticaredeca(
+    poslasticaraDeteID int PRIMARY KEY AUTO_INCREMENT,
+    poslasticaraID int NOT null,
+    deteID int NOT null,
+    FOREIGN KEY (poslasticaraID) REFERENCES poslasticare (poslasticaraID)
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION,
+    FOREIGN KEY (deteID) REFERENCES deca (deteID)
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION
+)ENGINE = INNODB;
+
+CREATE TABLE decasladoledi(
+    detesladoledID int PRIMARY KEY AUTO_INCREMENT,
+    kolicina int NOT null,
+    deteID int NOT null,
+    sladoledID int NOT null,
+    FOREIGN KEY (deteID) REFERENCES deca (deteID)
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION,
+    FOREIGN KEY (sladoledID) REFERENCES sladoledi (sladoledID)
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION
+)ENGINE = INNODB;
+
+####################################
+###   B je u MySQL Workbench-u   ###
+####################################
+
+#############
+###   V   ###
+#############
+
+INSERT INTO `poslasticare`(`poslasticaraID`, `naziv`, `grad`, `ulica`, `broj`)
+VALUES (1,'Trtko','Valjevo','Dositejeva','4a'), (2,'Sladiša','Zemun','Oračka','17b'), (3,'Korny','Novi Sad','Geteova','17b');
+
+INSERT INTO `sladoledi`(`sladoledID`, `nazivSladoleda`)
+VALUES (1,'Sneško'), (2, 'Jagoda'), (3, 'Miks'), (4, 'Čoko'), (5, 'Vanila'), (6, 'Kekson');
+
+INSERT INTO `deca`(`deteID`, `ime`, `prezime`, `najdraziSladoled`)
+VALUES (1,'Pera','Perić','Miks'), (2,'Žika','Žikić','Jagoda'), (3, 'Dejan', 'Dejanović', 'Sneško');
+
+INSERT INTO `poslasticaresladoledi`(`poslasticaraID`, `sladoledID`)
+VALUES (1, 2), (1,3), (1,4), (2,3), (2,2), (2,1), (3,4), (3,5), (3, 6);
+
+INSERT INTO `poslasticaredeca`(`poslasticaraID`, `deteID`)
+VALUES (1,1),(1,2),(1,3),(2,1),(2,2),(3,2),(3,3);
+
+INSERT INTO `decasladoledi`(`kolicina`, `deteID`, `sladoledID`)
+VALUES ( 2, 1, 1), ( 1, 2, 2), ( 1, 3, 3), ( 2, 2, 4), ( 1, 3, 5), ( 1, 1, 6), ( 3, 3, 2), ( 2, 2, 4);
+
+#############################################
+###   G i D je JAVA projekat u Eclips-u   ###
+#############################################
+
+#############
+###   Đ   ###
+#############
+
+CREATE VIEW nazivisvihsladoleda AS
+SELECT nazivSladoleda
+FROM `sladoledi`
+
+SELECT *
+FROM `nazivisvihsladoleda`
+
+#############
+###   E   ###
+#############
+
+CREATE TABLE najprodavanijisladoledi(
+    najprodavanijisladoledID int PRIMARY KEY AUTO_INCREMENT,
+    najprodavanijisladoled varchar(45)
+)ENGINE = INNODB;
+
+DELIMITER //
+CREATE TRIGGER `najprodavanijisladoledi` AFTER INSERT ON `decasladoledi` FOR EACH ROW
+BEGIN
+INSERT INTO `najprodavanijisladoledi`(`najprodavanijisladoled`)
+VALUES ( (SELECT s.nazivSladoleda
+FROM `decasladoledi` AS d INNER JOIN `sladoledi` AS s
+USING(sladoledID)
+GROUP BY sladoledID
+HAVING SUM(kolicina) = (SELECT SUM(kolicina)
+                        FROM `decasladoledi`
+                        GROUP BY sladoledID
+                        ORDER BY SUM(kolicina) DESC LIMIT 1) LIMIT 1) );
+END //
+DELIMITER ;
+
+# Dupli LIMIT 1 je tu jer se dešava da su dva ili više sladoleda najprodavaniji i onda trigger ne može da upiše dve vrednosti i podatak o prodaji ne može da prođe. Vrlo nezgodan trigger :)
+
+Dete id 3, kupilo 4 sladoleda id 6:
+INSERT INTO `decasladoledi`(`kolicina`, `deteID`, `sladoledID`) VALUES (2,1,4)
+
+#############
+###   Ž   ###
+#############
+
+DELIMITER //
+CREATE FUNCTION maxnosladoled() RETURNS INT
+DETERMINISTIC
+BEGIN
+ RETURN (SELECT COUNT(sladoledID) FROM `poslasticaresladoledi`);
+end //
+DELIMITER ;
+
+SELECT maxnosladoled() AS "Ukupan broj sladoleda koji se prodaju u svim poslastičarnicama"
+
+#############
+###   Z   ###
+#############
+
+DELIMITER //
+CREATE PROCEDURE posldete()
+BEGIN
+ SELECT DISTINCT p.naziv AS "Poslastičare koje posećuje bar jedno dete"
+ FROM poslasticare AS p JOIN poslasticaredeca AS pd
+ USING(poslasticaraID);
+END //
+DELIMITER ;
+
+CALL posldete();
+
+#############
+###   I   ###
+#############
+
+SELECT CONCAT(d.ime, ' ', d.prezime) AS 'Deca koja posećuju SAMO poslastičare koje prodaju njihov najdraži sladoled'
+FROM `poslasticaredeca` AS pd JOIN deca AS d
+USING(deteID)
+GROUP BY pd.deteID
+HAVING COUNT(pd.poslasticaraID) = (SELECT count(ps.poslasticaraID)
+                                   FROM deca AS d JOIN sladoledi AS s
+                                   ON d.najdraziSladoled = s.nazivSladoleda
+                                   JOIN poslasticaresladoledi AS ps
+                                   USING(sladoledID)
+                                   JOIN poslasticaredeca AS pd
+                                   USING(deteID, poslasticaraID)
+                                   GROUP BY d.deteID
+                                   HAVING d.deteID = pd.deteID);
+
+
+############################# KRAJ... ###########################
+
+### Priča koja prati zadatak pod I)...
+
+### Možda može prostije ovo pod I)...
+### Krenuo sam od sledećeg upita...
+### koji je davao jako lepo rešenje na vrlo prost i jednostavan način, ali nažalost ne i to koje se traži :(
+
+SELECT DISTINCT CONCAT(d.ime, ' ', d.prezime) AS 'Posećuju poslastičare koje prodaju njihov najdraži sladoled'
+FROM deca AS d JOIN sladoledi AS s
+ON d.najdraziSladoled = s.nazivSladoleda
+JOIN poslasticaresladoledi AS ps
+USING(sladoledID)
+JOIN poslasticaredeca AS pd
+USING(deteID, poslasticaraID)
+
+### zatim sam prebrojao poslastičare u koje su išli ID dece, a imaju njihov najdraži sladoled
+
+SELECT d.deteID, count(ps.poslasticaraID)
+FROM deca AS d JOIN sladoledi AS s
+ON d.najdraziSladoled = s.nazivSladoleda
+JOIN poslasticaresladoledi AS ps
+USING(sladoledID)
+JOIN poslasticaredeca AS pd
+USING(deteID, poslasticaraID)
+GROUP BY d.deteID
+
+### Pa sam prebrojao u koliko su poslastičara deca išla da kupuju sladolede
+
+SELECT pd.deteID, COUNT(pd.poslasticaraID)
+FROM `poslasticaredeca` AS pd
+GROUP BY pd.deteID
+
+### Zaključio sam da ova dva prebrojavanja poslastičara moraju da se slažu jer u suprotnom
+### je dete išlo i u poslatičare koje nemaju njegov omiljeni sladoled
+### i na kraju sam došao do rešenja, ali me je to rešenje koštalo vremena tj. pola današnjeg dana :)
+
+SELECT CONCAT(d.ime, ' ', d.prezime) AS 'Deca koja posećuju SAMO poslastičare koje prodaju njihov najdraži sladoled'
+FROM `poslasticaredeca` AS pd JOIN deca AS d
+USING(deteID)
+GROUP BY pd.deteID
+HAVING COUNT(pd.poslasticaraID) = (SELECT count(ps.poslasticaraID)
+                                   FROM deca AS d JOIN sladoledi AS s
+                                   ON d.najdraziSladoled = s.nazivSladoleda
+                                   JOIN poslasticaresladoledi AS ps
+                                   USING(sladoledID)
+                                   JOIN poslasticaredeca AS pd
+                                   USING(deteID, poslasticaraID)
+                                   GROUP BY d.deteID
+                                   HAVING d.deteID = pd.deteID);
+
+### Ako se ja pitam, sve ono od A do Z nosi po jedan poen, a ovo vredi bar 91 :)))
+
+### Ako mi na kraju neko kaže da ovo rešenje nije tačno, odoh da se udavim u mutno Dunavo :)
+
+
+
+### Ovo sam unosio pride da pokušam da proverim da li je sve tačno
+### Ne mora da znači da jeste :)
+
+INSERT INTO `poslasticaresladoledi`(`poslasticaraID`, `sladoledID`)
+VALUES (4, 1), (4,3), (4,5), (5,2), (5,4), (5,6), (6,4), (6,1), (6, 6);
+
+INSERT INTO `poslasticaredeca`(`poslasticaraID`, `deteID`)
+VALUES (5,1),(5,3),(6,2);
+
+INSERT INTO `decasladoledi`(`kolicina`, `deteID`, `sladoledID`)
+VALUES ( 1, 3, 5);
+
+INSERT INTO `decasladoledi`(`kolicina`, `deteID`, `sladoledID`)
+VALUES ( 1, 2, 1);
+
+INSERT INTO `decasladoledi`(`kolicina`, `deteID`, `sladoledID`)
+VALUES ( 1, 1, 6);
+
+INSERT INTO `deca`(`deteID`, `ime`, `prezime`, `najdraziSladoled`)
+VALUES (4,'Marko','Marković','Kekson');
+
+INSERT INTO `decasladoledi`(`kolicina`, `deteID`, `sladoledID`)
+VALUES ( 2, 4, 6);
+
+INSERT INTO `poslasticaredeca`(`poslasticaraID`, `deteID`)
+VALUES (6,4);
+
+INSERT INTO `deca`(`deteID`, `ime`, `prezime`, `najdraziSladoled`)
+VALUES (5,'Lazar','Lazarević','Vanila');
+
+INSERT INTO `decasladoledi`(`kolicina`, `deteID`, `sladoledID`)
+VALUES ( 5, 5, 5), (1, 5, 1);
+
+INSERT INTO `poslasticaredeca`(`poslasticaraID`, `deteID`)
+VALUES (3, 5), (4, 5);
+
+### JAVA ###
+
+Kroz JAVA konekciju sam uneo:
+4, Carstvo Sladoleda, Zaječar, Kopernikova, 34c
+	
+5, Ledeni Čika, Vranje, Kralja Aleksandra, 12
+	
+6, Bucko, Kraljevo, Viktora Bubnja, 43

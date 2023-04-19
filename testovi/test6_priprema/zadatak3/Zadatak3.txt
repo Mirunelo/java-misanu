@@ -1,0 +1,15 @@
+# Kreirati bazu i uneti jednu biblioteku:
+
+CREATE TABLE biblioteke (
+  bibliotekaID int PRIMARY KEY AUTO_INCREMENT,
+  imeBiblioteke varchar(45) NOT NULL,
+  ulica varchar(100) NOT NULL,
+  broj varchar(3) NOT NULL
+) ENGINE=INNODB;
+
+INSERT INTO `biblioteke`(`imeBiblioteke`, `ulica`, `broj`)
+VALUES ('Njegoš','Njegoševa','212');
+
+# Download Java MySQL Connector: https://dev.mysql.com/downloads/connector/j/
+# Staviti u folder projekta. U Eclipse desno dugme na projekat pa:
+# Build Path/Add External Archives/ izabrati mysql-connector-j-8.0.*
