@@ -1,0 +1,18 @@
+# Kreirati bazu i uneti jednog korisnika:
+
+CREATE DATABASE tb;
+
+CREATE TABLE korisnici(
+    korisnikID int PRIMARY KEY AUTO_INCREMENT,
+    korisnickoIme varchar(45) NOT NULL,
+    lozinka varchar(45) NOT NULL,
+    ime varchar(45) NOT NULL,
+    email varchar(45) NOT NULL
+);
+
+INSERT INTO `korisnici`(`korisnickoIme`, `lozinka`, `ime`, `email`)
+VALUES ("korisnik1", "korisnik123", "Korisnik", "korisnik@gmail.com");
+
+# Download Java MySQL Connector: https://dev.mysql.com/downloads/connector/j/
+# Staviti u folder projekta. U Eclipse desno dugme na projekat pa:
+# Build Path/Add External Archives/ izabrati mysql-connector-j-8.0.*
