@@ -8,7 +8,7 @@ public class Operatori {
 		// Binarni operatori
 		//  5 + 10 
 		
-		// = 
+		// =
 		
 		// =  operator dodele vrednosti
 		// vrednost koja se nalazi sa desne strane
