@@ -1,0 +1,1 @@
+Jedan kotao peče 10 litara rakije. Koliko će radkije ispeći 2 kotla ukoliko 3 pekača od kojih jedan ima samo 3 prsta na levoj ruci ruččno meću cepanice u ložište?
