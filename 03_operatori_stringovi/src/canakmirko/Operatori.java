@@ -33,7 +33,7 @@ public class Operatori {
 		
 		// Operator / predstavlja celobrojno deljenje
 		float kolicnik = 13 / 3;  
-		System.out.println("Količnik = " + kolicnik);
+		System.out.println("Kolicnik = " + kolicnik);
 		
 		// Deljenje sa ostatkom % 
 		int ostatak = 17 % 3;
