@@ -1,0 +1,220 @@
+package praksaNEW;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Osobe {
+
+	private ArrayList<String> imena;
+	private ArrayList<String> prezimena;
+	private ArrayList<String> odanosti;
+	private ArrayList<String> datoteke;
+
+	// Konstruktor
+	public Osobe() {
+		imena = new ArrayList<>();
+		prezimena = new ArrayList<>();
+		odanosti = new ArrayList<>();
+		datoteke = new ArrayList<>();
+		lista();
+	}
+
+	// Klasa se poziva pri pravljenju objekta klase Osobe
+	// Izdvaja sve podatke o osobama iz datoteke
+	private void lista() {
+		ArrayList<String> metaData = FileHelper.loadFiles("resource/got_meta_data.txt");
+		for (int i = 1; i < metaData.size(); i++) {
+			// Delimo podatke na: Osoba, Odanost, Datoteka poruka
+			String[] split = metaData.get(i).split("[,]", 0);
+			// Upisujemo podatke u Kolekcije
+			imena.add(split[0].split(" ")[0]); // Izdvajamo i upisujemo ime
+			if(split[0].indexOf(' ') >= 0) // Uslov true -> Osoba ima prezime
+				prezimena.add(split[0].split(" ")[1]); // Izdvajamo i upisujemo prezime
+			else // Osoba nema prezime
+				prezimena.add("");
+			odanosti.add(split[1].stripLeading()); // Brišemo whitespaces na početku Stringova
+			datoteke.add(split[2].stripLeading()); // i upisujemo odanost kući i datoteku
+		}
+	}
+
+	// Štampa sve poruke za osobu zadatog ime-na
+	public void stampajPoruke(String ime) {
+		int i = imena.indexOf(ime);
+		System.out.println("Štampamo sve poruke osobe " + imena.get(i) + ":\n");
+		ArrayList<String> chat = FileHelper.loadFiles("resource/message_logs/" + datoteke.get(i));
+		for (i = 1; i < chat.size(); i++)
+			System.out.println(chat.get(i));
+	}
+
+	// Štampa broj poruka koje je poslala svaka osoba
+	public void brPorukaSvihOsoba() {
+		System.out.println("Broj poruka koje je svaka osoba poslala:\n");
+		for (int i = 0; i < datoteke.size(); i++) {
+			ArrayList<String> chat = FileHelper.loadFiles("resource/message_logs/" + datoteke.get(i));
+			System.out.println("Osoba " + imena.get(i) + " je poslala " + (chat.size() - 1) + " poruka.");
+		}
+	}
+
+	// Kompletna analiza upotrebe Happy/Sad smajlija
+	public void sadOrHappy() {
+		// ArrayList rezultata analize
+		ArrayList<Integer> sadDispozicija = new ArrayList<>();
+		System.out.println("Analiza osoba prema upotrebi smajlija:\n");
+		// Zadavanje patterna Happy/Sad
+		Pattern happy = Pattern.compile("[😄🙂😊😍]");
+		Pattern sad = Pattern.compile("[😢😭😞👿]");
+		// Analiziramo datoteke chat-ova jednu po jednu
+		for (int i = 0; i < datoteke.size(); i++) {
+			// Učitavamo listu chat-a
+			ArrayList<String> chat = FileHelper.loadFiles("resource/message_logs/" + datoteke.get(i));
+			// Kreiramo matcher-e koji upoređuju chat sa pattern-ima
+			Matcher testHappy = happy.matcher(chat.toString());
+			Matcher testSad = sad.matcher(chat.toString());
+			// Resetujemo brojače Happy/Sad
+			int s = 0;
+			int h = 0;
+			// Sumiramo broj Happy/Sad smajlija u chat-u
+			while (testHappy.find()) {
+				if (testHappy.group() != "")
+					h++;
+			}
+			while (testSad.find()) {
+				if (testSad.group() != "")
+					s++;
+			}
+			// Upisujemo rezultat u ArrayList rezultata analize
+			sadDispozicija.add(s);
+			sadDispozicija.add(h);
+			// Štampamo izveštaj dispozicije za osobu
+			if (s > h)
+				System.out.println("Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
+						+ " srećnih smajlija, pa je zaključak da je više tužna.");
+			else if (s < h)
+				System.out.println("Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
+						+ " srećnih smajlija, pa je zaključak da je više srećna.");
+			else
+				System.out.println("Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
+						+ " srećnih smajlija, pa je zaključak da je podjednako i srećna i tužna.");
+		}
+		// Sumiramo sve Happy/Sad smajlije iz rezultujuće ArrayList-e
+		int s = 0;
+		int h = 0;
+		for (int i = 0; i < sadDispozicija.size(); i += 2) {
+			s += (int) sadDispozicija.get(i);
+			h += (int) sadDispozicija.get(i + 1);
+		}
+		System.out.println();
+		// Štampamo izveštaj dispozicije za sve chat-ove generalno
+		if (s > h)
+			System.out.println("Chat-ovi generalno imaju negativnu dispoziciju, tj. više je tužnih " + s
+					+ " nego srećnih " + h + " smajlija.");
+		else if (s < h)
+			System.out.println("Chat-ovi generalno imaju pozitivnu dispoziciju, tj. više je srećnih " + h
+					+ " nego tužnih " + s + " smajlija.");
+		else
+			System.out.println("Chat-ovi generalno imaju neutralnu dispoziciju, tj. isti je broj tužnih " + s
+					+ " i srećnih " + h + " smajlija.");
+
+		// Tražimo osobe najpozitivnije i najnegativnije dispozicije:
+		// inicijalizujemo promenljive
+		int min = sadDispozicija.get(0) - sadDispozicija.get(1);
+		int max = min;
+		int razlika;
+		String najtuznija = null;
+		String najsrecnija = null;
+		// Određujemo osobe sa max/min dispozicijom
+		for (int i = 0; i < sadDispozicija.size(); i += 2) {
+			razlika = sadDispozicija.get(i) - sadDispozicija.get(i + 1);
+			if (max <= razlika) {
+				max = razlika;
+				najtuznija = imena.get(i / 2);
+			}
+			if (min >= razlika) {
+				min = razlika;
+				najsrecnija = imena.get(i / 2);
+			}
+		}
+		// Štampamo izveštaj
+		System.out.println("\n5. Osobe sa najpozitivnijom i najnegativnijom dispozicijom:\n");
+		System.out.println("Osoba " + najsrecnija + " ima najpozitivniju dispoziciju, tj. najsrećnija je.");
+		System.out.println("Osoba " + najtuznija + " ima najnegativniju dispoziciju, tj. najtužnija je.");
+	}
+
+	// Analiza Loving smajlija
+	public void odmeriLjubav(String ime1, String ime2) {
+		// Saznajemo indekse Osoba prema njihovom imenu
+		int x = imena.indexOf(ime1);
+		int y = imena.indexOf(ime2);
+
+		// Zadajemo pattern za ljubavne smajlije
+		Pattern loving = Pattern.compile("[😍😘]");
+
+		// Test ljubavi osobe ime1:
+		// Učitavamo List-u četa
+		ArrayList<String> chat1 = FileHelper.loadFiles("resource/message_logs/" + datoteke.get(x));
+		// Uklanjamo sve linije četa u kojima se ne obraća osobi ime2
+		System.out.println("Uklanjamo linije chat-a u kojima se " + ime1 + " ne obraća " + ime2);
+		for (int i = 0; i < chat1.size(); i++) {
+			if (!chat1.get(i).startsWith(ime2)) {
+				System.out.println("\033[1;91mUklonjeno -> " + chat1.get(i) + "\033[0m");
+				chat1.remove(i);
+				i--;
+			}
+
+		}
+		// Sumiramo broj ljubavnih smajlija osobe ime1 upućene osobi ime2
+		Matcher testLoving1 = loving.matcher(chat1.toString());
+		int n = 0;
+		while (testLoving1.find())
+			if (testLoving1.group() != "")
+				n++;
+
+		// Test ljubavi osobe ime2
+		// Učitavamo List-u četa
+		ArrayList<String> chat2 = FileHelper.loadFiles("resource/message_logs/" + datoteke.get(y));
+		// Uklanjamo sve linije četa u kojima se ne obraća osobi ime1
+		System.out.println("\nUklanjamo linije chat-a u kojima se " + ime2 + " ne obraća " + ime1);
+		for (int i = 0; i < chat2.size(); i++) {
+			if (!chat2.get(i).startsWith(ime1)) {
+				System.out.println("\033[1;91mUklonjeno -> " + chat2.get(i) + "\033[0m");
+				chat2.remove(i);
+				i--;
+			}
+
+		}
+		// Sumiramo broj ljubavnih smajlija osobe ime2 upućene osobi ime1
+		Matcher testLoving2 = loving.matcher(chat2.toString());
+		int m = 0;
+		while (testLoving2.find())
+			if (testLoving2.group() != "")
+				m++;
+
+		// Štampamo zaključak
+		System.out.print("\nAnalizom ljubavnih smajlija:\n" + imena.get(x) + " -> " + n + "\n" + imena.get(y) + " -> "
+				+ m + "\nUtvrđeno je da ");
+		if (n > m)
+			System.out.println(imena.get(x) + " više voli " + imena.get(y) + ".");
+		else if (n < m)
+			System.out.println(imena.get(y) + " više voli " + imena.get(x) + ".");
+		else
+			System.out.println("se " + imena.get(x) + " i " + imena.get(y) + " vole istim intenzitetom.");
+	}
+
+	// Štampa tabelarni prikaz svih osoba
+	public void listaPodataka() {
+		System.out.println("______________________________________________________________________________");
+		System.out.println("|     Ime     |   Prezime   |      Odanost      |       Datoteka chat-a      |");
+		System.out.println("|-------------|-------------|-------------------|----------------------------|");
+		for (int i = 0; i < imena.size(); i++) {
+			System.out.print(String.format("| %-12s", imena.get(i)));
+			System.out.print(String.format("| %-12s", prezimena.get(i)));
+			System.out.print(String.format("| %-18s", odanosti.get(i)));
+			System.out.print(String.format("| %-27s", datoteke.get(i)) + "|");
+			if (i < imena.size() - 1)
+				System.out.println("\n|-------------|-------------|-------------------|----------------------------|");
+			else
+				System.out.println("\n|_____________|_____________|___________________|____________________________|");
+		}
+	}
+}
