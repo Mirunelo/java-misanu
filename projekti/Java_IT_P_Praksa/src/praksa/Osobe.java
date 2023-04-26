@@ -150,7 +150,7 @@ public class Osobe {
 		System.out.println("Uklanjamo linije chat-a u kojima se " + ime1 + " ne obraća " + ime2);
 		for(int i = 0; i < chat1.size(); i++)
 			if(!chat1.get(i).startsWith(ime2)) {
-				System.out.println(". \033[1;91mLinija " + i + " uklonjena -> " + chat1.get(i) + "\033[0m");
+				System.out.println("\033[1;91mUklonjeno -> " + chat1.get(i) + "\033[0m");
 				chat1.remove(i);
 				i--;
 			}
@@ -168,7 +168,7 @@ public class Osobe {
 		System.out.println("\nUklanjamo linije chat-a u kojima se " + ime2 + " ne obraća " + ime1);
 		for(int i = 0; i < chat2.size(); i++)
 			if(!chat2.get(i).startsWith(ime1)) {
-				System.out.println(". \033[1;91mLinija " + i + " uklonjena -> " + chat2.get(i) + "\033[0m");
+				System.out.println("\033[1;91mUklonjeno -> " + chat2.get(i) + "\033[0m");
 				chat2.remove(i);
 				i--;
 			}
@@ -180,7 +180,7 @@ public class Osobe {
 				m++;
 		
 		// Štampamo zaključak
-		System.out.print("\nAnalizom ljubavnih smajlija:\n" + imena.get(x) + " -> " + n + "\n" + imena.get(y) + " -> " + m + "\nutvrđeno je da ");
+		System.out.print("\nAnalizom ljubavnih smajlija:\n" + imena.get(x) + " -> " + n + "\n" + imena.get(y) + " -> " + m + "\nUtvrđeno je da ");
 		if(n > m)
 			System.out.println(imena.get(x) + " više voli " + imena.get(y) + ".");
 		else if(n < m)
