@@ -1,8 +1,7 @@
 package praksaNEW;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Collections;
 
 public class Osobe {
 
@@ -25,16 +24,16 @@ public class Osobe {
 	private void lista() {
 		ArrayList<String> metaData = FileHelper.loadFiles("resource/got_meta_data.txt");
 		for (int i = 1; i < metaData.size(); i++) {
-			// Delimo podatke na: Osoba, Odanost, Datoteka poruka
+			// Deli podatke na: Osoba, Odanost, Datoteka poruka
 			String[] split = metaData.get(i).split("[,]", 0);
-			// Upisujemo podatke u Kolekcije
-			imena.add(split[0].split(" ")[0]); // Izdvajamo i upisujemo ime
+			// Upisuje podatke u Kolekcije
+			imena.add(split[0].split(" ")[0]); // Izdvaja i upisuje ime
 			if(split[0].indexOf(' ') >= 0) // Uslov true -> Osoba ima prezime
-				prezimena.add(split[0].split(" ")[1]); // Izdvajamo i upisujemo prezime
-			else // Osoba nema prezime
+				prezimena.add(split[0].split(" ")[1]); // Izdvaja i upisuje prezime
+			else // Uslov false -> Kad osoba nema prezime
 				prezimena.add("");
-			odanosti.add(split[1].stripLeading()); // Brišemo whitespaces na početku Stringova
-			datoteke.add(split[2].stripLeading()); // i upisujemo odanost kući i datoteku
+			odanosti.add(split[1].stripLeading()); // Briše whitespace-ove na početku Stringova
+			datoteke.add(split[2].stripLeading()); // i upisuje odanost kući i ime datoteke
 		}
 	}
 
@@ -56,37 +55,33 @@ public class Osobe {
 		}
 	}
 
-	// Kompletna analiza upotrebe Happy/Sad smajlija
-	public void sadOrHappy() {
-		// ArrayList rezultata analize
-		ArrayList<Integer> sadDispozicija = new ArrayList<>();
+	// Kompletna analiza upotrebe Srećnih/Tužnih smajlija
+	public void srecanIliTuzan() {
 		System.out.println("Analiza osoba prema upotrebi smajlija:\n");
-		// Zadavanje patterna Happy/Sad
-		Pattern happy = Pattern.compile("[😄🙂😊😍]");
-		Pattern sad = Pattern.compile("[😢😭😞👿]");
-		// Analiziramo datoteke chat-ova jednu po jednu
+		
+		// ArrayList-a rezultata analize
+		ArrayList<Integer> brojTuznih = new ArrayList<>();
+		ArrayList<Integer> brojSrecnih = new ArrayList<>();
+		
+		// Dohvata tužne i srećne smajlije
+		String sad = TipSmajlija.TUZNI.getSmajliji();
+		String happy = TipSmajlija.SRECNI.getSmajliji();
+
+		// Analizira sve datoteke poruka
 		for (int i = 0; i < datoteke.size(); i++) {
-			// Učitavamo listu chat-a
+			// Učitava listu chat-a
 			ArrayList<String> chat = FileHelper.loadFiles("resource/message_logs/" + datoteke.get(i));
-			// Kreiramo matcher-e koji upoređuju chat sa pattern-ima
-			Matcher testHappy = happy.matcher(chat.toString());
-			Matcher testSad = sad.matcher(chat.toString());
-			// Resetujemo brojače Happy/Sad
-			int s = 0;
-			int h = 0;
-			// Sumiramo broj Happy/Sad smajlija u chat-u
-			while (testHappy.find()) {
-				if (testHappy.group() != "")
-					h++;
-			}
-			while (testSad.find()) {
-				if (testSad.group() != "")
-					s++;
-			}
-			// Upisujemo rezultat u ArrayList rezultata analize
-			sadDispozicija.add(s);
-			sadDispozicija.add(h);
-			// Štampamo izveštaj dispozicije za osobu
+
+			// Poziva metodu za sumiranje karaktera
+			int s = SmajliPomocnik.brojacKaraktera(chat, sad);
+			int h = SmajliPomocnik.brojacKaraktera(chat, happy);
+
+			// Upisuje rezultat u ArrayList rezultata analize
+			brojTuznih.add(s);
+			brojSrecnih.add(h);
+			//System.out.println(max);
+			
+			// Štampa izveštaj dispozicije za osobu
 			if (s > h)
 				System.out.println("Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
 						+ " srećnih smajlija, pa je zaključak da je više tužna.");
@@ -97,108 +92,72 @@ public class Osobe {
 				System.out.println("Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
 						+ " srećnih smajlija, pa je zaključak da je podjednako i srećna i tužna.");
 		}
-		// Sumiramo sve Happy/Sad smajlije iz rezultujuće ArrayList-e
+		
+		// Sumira sve Srećne/Tužne smajlije iz rezultujućih ArrayList-a
 		int s = 0;
 		int h = 0;
-		for (int i = 0; i < sadDispozicija.size(); i += 2) {
-			s += (int) sadDispozicija.get(i);
-			h += (int) sadDispozicija.get(i + 1);
+		for (int i = 0; i < brojTuznih.size(); i++) {
+			s += brojTuznih.get(i);
+			h += brojSrecnih.get(i);
 		}
-		System.out.println();
-		// Štampamo izveštaj dispozicije za sve chat-ove generalno
+		
+		// Štampa izveštaj dispozicije za sve chat-ove generalno
 		if (s > h)
-			System.out.println("Chat-ovi generalno imaju negativnu dispoziciju, tj. više je tužnih " + s
+			System.out.println("\nChat-ovi generalno imaju negativnu dispoziciju, tj. više je tužnih " + s
 					+ " nego srećnih " + h + " smajlija.");
 		else if (s < h)
-			System.out.println("Chat-ovi generalno imaju pozitivnu dispoziciju, tj. više je srećnih " + h
+			System.out.println("\nChat-ovi generalno imaju pozitivnu dispoziciju, tj. više je srećnih " + h
 					+ " nego tužnih " + s + " smajlija.");
 		else
-			System.out.println("Chat-ovi generalno imaju neutralnu dispoziciju, tj. isti je broj tužnih " + s
+			System.out.println("\nChat-ovi generalno imaju neutralnu dispoziciju, tj. isti je broj tužnih " + s
 					+ " i srećnih " + h + " smajlija.");
 
-		// Tražimo osobe najpozitivnije i najnegativnije dispozicije:
-		// inicijalizujemo promenljive
-		int min = sadDispozicija.get(0) - sadDispozicija.get(1);
-		int max = min;
-		int razlika;
-		String najtuznija = null;
-		String najsrecnija = null;
-		// Određujemo osobe sa max/min dispozicijom
-		for (int i = 0; i < sadDispozicija.size(); i += 2) {
-			razlika = sadDispozicija.get(i) - sadDispozicija.get(i + 1);
-			if (max <= razlika) {
-				max = razlika;
-				najtuznija = imena.get(i / 2);
-			}
-			if (min >= razlika) {
-				min = razlika;
-				najsrecnija = imena.get(i / 2);
-			}
-		}
-		// Štampamo izveštaj
-		System.out.println("\n5. Osobe sa najpozitivnijom i najnegativnijom dispozicijom:\n");
-		System.out.println("Osoba " + najsrecnija + " ima najpozitivniju dispoziciju, tj. najsrećnija je.");
-		System.out.println("Osoba " + najtuznija + " ima najnegativniju dispoziciju, tj. najtužnija je.");
+		// Rešenje 5.a:
+		System.out.println("\n5a. Osobe sa najpozitivnijom i najnegativnijom dispozicijom\n    u smislu razlike (Happy - Sad) = dispozicija, pozitivna ili negativna:");
+		ArrayList<Integer> razlika = new ArrayList<>();
+		for (int i = 0; i < brojTuznih.size(); i++)
+			razlika.add(brojSrecnih.get(i) - brojTuznih.get(i));
+		int max = Collections.max(razlika);
+		int min = Collections.min(razlika);
+		for(int i = 0; i < razlika.size(); i++)
+			if(razlika.get(i) == max)
+				System.out.println("Osoba " + imena.get(i) + " ima najpozitivniju dispoziciju, tj. najsrećnija je (" + max + ").");
+		for(int i = 0; i < razlika.size(); i++)
+			if(razlika.get(i) == min)
+				System.out.println("Osoba " + imena.get(i) + " ima najnegativniju dispoziciju, tj. najtužnija je (" + min + ").");
+		
+		// Rešenje 5.b:
+		System.out.println("\n5b. Osobe sa najpozitivnijom i najnegativnijom dispozicijom\n    u smislu broja upotrebljenih Happy/Sad smajlija:");
+		int maxHappy = Collections.max(brojSrecnih);
+		int maxSad = Collections.max(brojTuznih);
+		for(int i = 0; i < brojSrecnih.size(); i++)
+			if(brojSrecnih.get(i) == maxHappy)
+				System.out.println("Osoba " + imena.get(i) + " ima najpozitivniju dispoziciju, tj. najsrećnija je (" + maxHappy + ").");
+		for(int i = 0; i < brojTuznih.size(); i++)
+			if(brojTuznih.get(i) == maxSad)
+				System.out.println("Osoba " + imena.get(i) + " ima najnegativniju dispoziciju, tj. najtužnija je (" + maxSad + ").");
 	}
 
-	// Analiza Loving smajlija
+	// Analiza ljubavnih smajlija
 	public void odmeriLjubav(String ime1, String ime2) {
-		// Saznajemo indekse Osoba prema njihovom imenu
-		int x = imena.indexOf(ime1);
-		int y = imena.indexOf(ime2);
-
-		// Zadajemo pattern za ljubavne smajlije
-		Pattern loving = Pattern.compile("[😍😘]");
-
-		// Test ljubavi osobe ime1:
-		// Učitavamo List-u četa
-		ArrayList<String> chat1 = FileHelper.loadFiles("resource/message_logs/" + datoteke.get(x));
-		// Uklanjamo sve linije četa u kojima se ne obraća osobi ime2
-		System.out.println("Uklanjamo linije chat-a u kojima se " + ime1 + " ne obraća " + ime2);
-		for (int i = 0; i < chat1.size(); i++) {
-			if (!chat1.get(i).startsWith(ime2)) {
-				System.out.println("\033[1;91mUklonjeno -> " + chat1.get(i) + "\033[0m");
-				chat1.remove(i);
-				i--;
-			}
-
-		}
-		// Sumiramo broj ljubavnih smajlija osobe ime1 upućene osobi ime2
-		Matcher testLoving1 = loving.matcher(chat1.toString());
-		int n = 0;
-		while (testLoving1.find())
-			if (testLoving1.group() != "")
-				n++;
-
-		// Test ljubavi osobe ime2
-		// Učitavamo List-u četa
-		ArrayList<String> chat2 = FileHelper.loadFiles("resource/message_logs/" + datoteke.get(y));
-		// Uklanjamo sve linije četa u kojima se ne obraća osobi ime1
-		System.out.println("\nUklanjamo linije chat-a u kojima se " + ime2 + " ne obraća " + ime1);
-		for (int i = 0; i < chat2.size(); i++) {
-			if (!chat2.get(i).startsWith(ime1)) {
-				System.out.println("\033[1;91mUklonjeno -> " + chat2.get(i) + "\033[0m");
-				chat2.remove(i);
-				i--;
-			}
-
-		}
-		// Sumiramo broj ljubavnih smajlija osobe ime2 upućene osobi ime1
-		Matcher testLoving2 = loving.matcher(chat2.toString());
-		int m = 0;
-		while (testLoving2.find())
-			if (testLoving2.group() != "")
-				m++;
+		
+		// Priprema podataka za prosleđivanje metodi konverzacija
+		String datoteka1 = datoteke.get(imena.indexOf(ime1));
+		String datoteka2 = datoteke.get(imena.indexOf(ime2));
+		String pattern = TipSmajlija.LJUBAVNI.getSmajliji(); // zadajemo ljubavne smajlije kao pattern
+		
+		// Pozivamo static metodu konverzacija klase SmajliPomocnik
+		int[]xy = SmajliPomocnik.konverzacija(ime1, ime2, datoteka1, datoteka2, pattern);
 
 		// Štampamo zaključak
-		System.out.print("\nAnalizom ljubavnih smajlija:\n" + imena.get(x) + " -> " + n + "\n" + imena.get(y) + " -> "
-				+ m + "\nUtvrđeno je da ");
-		if (n > m)
-			System.out.println(imena.get(x) + " više voli " + imena.get(y) + ".");
-		else if (n < m)
-			System.out.println(imena.get(y) + " više voli " + imena.get(x) + ".");
+		System.out.print("\nAnalizom ljubavnih smajlija:\n" + ime1 + " -> " + xy[0] + "\n" + ime2 + " -> "
+				+ xy[1] + "\nUtvrđeno je da ");
+		if (xy[0] > xy[1])
+			System.out.println(ime1 + " više voli " + ime2 + ".");
+		else if (xy[0] < xy[1])
+			System.out.println(ime2 + " više voli " + ime1 + ".");
 		else
-			System.out.println("se " + imena.get(x) + " i " + imena.get(y) + " vole istim intenzitetom.");
+			System.out.println("se " + ime1 + " i " + ime2 + " vole istim intenzitetom.");
 	}
 
 	// Štampa tabelarni prikaz svih osoba
