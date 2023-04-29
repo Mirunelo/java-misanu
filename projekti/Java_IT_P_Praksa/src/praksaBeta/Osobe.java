@@ -58,7 +58,7 @@ public class Osobe implements GI{
 	// Kompletna analiza upotrebe Srećnih/Tužnih smajlija
 	public void srecanIliTuzan() {
 		System.out.println("Analiza osoba prema upotrebi smajlija:\n");
-		String izvestaj = null;
+		String[] izvestaji = new String[datoteke.size()];
 		
 		// ArrayList-a rezultata analize
 		ArrayList<Integer> brojTuznih = new ArrayList<>();
@@ -84,16 +84,27 @@ public class Osobe implements GI{
 			
 			// Štampa izveštaj dispozicije za osobu
 			if (s > h)
-				izvestaj = "Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
+				izvestaji[i] = "Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
 						+ " srećnih smajlija, pa je zaključak da je više tužna.";
 			else if (s < h)
-				izvestaj = "Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
+				izvestaji[i] = "Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
 						+ " srećnih smajlija, pa je zaključak da je više srećna.";
 			else
-				izvestaj = "Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
+				izvestaji[i] = "Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
 						+ " srećnih smajlija, pa je zaključak da je podjednako i srećna i tužna.";
-			System.out.println(izvestaj);
 		}
+		
+		// Štampa izveštaje dispozicija za osobe u konzoli
+		String izvestaj = "";
+		for(int i = 0; i < izvestaji.length; i++)
+			if( i == izvestaji.length - 1)
+				izvestaj += izvestaji[i];
+			else
+				izvestaj += (izvestaji[i] + "\n");
+		System.out.println(izvestaj);
+		
+		// Prikazuje izveštaje dispozicija za osobe u pop-up prozoru
+		poruka("Dispozicija osoba", izvestaj);
 		
 		// Sumira sve Srećne/Tužne smajlije iz rezultujućih ArrayList-a
 		int s = 0;
@@ -114,9 +125,6 @@ public class Osobe implements GI{
 			izvestaj = "\nChat-ovi generalno imaju neutralnu dispoziciju, tj. isti je broj tužnih " + s
 					+ " i srećnih " + h + " smajlija.";
 		System.out.println(izvestaj);
-		
-		// Koristimo pop-up Message window za prikaz izveštaja generalne dispozicije
-		poruka("Generalna dispozicija", izvestaj);
 
 		// Rešenje 5.a:
 		System.out.println("\n5a. Osobe sa najpozitivnijom i najnegativnijom dispozicijom\n    u smislu razlike (Happy - Sad) = dispozicija, pozitivna ili negativna:");
