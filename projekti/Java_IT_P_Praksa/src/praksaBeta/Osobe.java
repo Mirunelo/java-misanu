@@ -1,9 +1,9 @@
-package praksaNEW;
+package praksaBeta;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Osobe {
+public class Osobe implements GI{
 
 	private ArrayList<String> imena;
 	private ArrayList<String> prezimena;
@@ -58,6 +58,7 @@ public class Osobe {
 	// Kompletna analiza upotrebe Srećnih/Tužnih smajlija
 	public void srecanIliTuzan() {
 		System.out.println("Analiza osoba prema upotrebi smajlija:\n");
+		String izvestaj = null;
 		
 		// ArrayList-a rezultata analize
 		ArrayList<Integer> brojTuznih = new ArrayList<>();
@@ -83,14 +84,15 @@ public class Osobe {
 			
 			// Štampa izveštaj dispozicije za osobu
 			if (s > h)
-				System.out.println("Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
-						+ " srećnih smajlija, pa je zaključak da je više tužna.");
+				izvestaj = "Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
+						+ " srećnih smajlija, pa je zaključak da je više tužna.";
 			else if (s < h)
-				System.out.println("Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
-						+ " srećnih smajlija, pa je zaključak da je više srećna.");
+				izvestaj = "Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
+						+ " srećnih smajlija, pa je zaključak da je više srećna.";
 			else
-				System.out.println("Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
-						+ " srećnih smajlija, pa je zaključak da je podjednako i srećna i tužna.");
+				izvestaj = "Osoba " + imena.get(i) + " je upotrebila " + s + " tužnih i " + h
+						+ " srećnih smajlija, pa je zaključak da je podjednako i srećna i tužna.";
+			System.out.println(izvestaj);
 		}
 		
 		// Sumira sve Srećne/Tužne smajlije iz rezultujućih ArrayList-a
@@ -101,16 +103,20 @@ public class Osobe {
 			h += brojSrecnih.get(i);
 		}
 		
-		// Štampa izveštaj dispozicije za sve chat-ove generalno
+		// Štampa izveštaj dispozicije za sve chat-ove generalno u konzoli
 		if (s > h)
-			System.out.println("\nChat-ovi generalno imaju negativnu dispoziciju, tj. više je tužnih " + s
-					+ " nego srećnih " + h + " smajlija.");
+			izvestaj = "\nChat-ovi generalno imaju negativnu dispoziciju, tj. više je tužnih " + s
+					+ " nego srećnih " + h + " smajlija.";
 		else if (s < h)
-			System.out.println("\nChat-ovi generalno imaju pozitivnu dispoziciju, tj. više je srećnih " + h
-					+ " nego tužnih " + s + " smajlija.");
+			izvestaj = "\nChat-ovi generalno imaju pozitivnu dispoziciju, tj. više je srećnih " + h
+					+ " nego tužnih " + s + " smajlija.";
 		else
-			System.out.println("\nChat-ovi generalno imaju neutralnu dispoziciju, tj. isti je broj tužnih " + s
-					+ " i srećnih " + h + " smajlija.");
+			izvestaj = "\nChat-ovi generalno imaju neutralnu dispoziciju, tj. isti je broj tužnih " + s
+					+ " i srećnih " + h + " smajlija.";
+		System.out.println(izvestaj);
+		
+		// Koristimo pop-up Message window za prikaz izveštaja generalne dispozicije
+		poruka("Generalna dispozicija", izvestaj);
 
 		// Rešenje 5.a:
 		System.out.println("\n5a. Osobe sa najpozitivnijom i najnegativnijom dispozicijom\n    u smislu razlike (Happy - Sad) = dispozicija, pozitivna ili negativna:");

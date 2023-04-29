@@ -1,4 +1,4 @@
-package praksaNEW;
+package praksaBeta;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

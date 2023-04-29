@@ -1,4 +1,4 @@
-package praksa;
+package praksaAlfa;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package praksaNEW;
+package praksaBeta;
 
 public enum TipSmajlija {
 SRECNI("[😄🙂😊😍]"), TUZNI("[😢😭😞👿]"), LJUBAVNI("[😍😘]");

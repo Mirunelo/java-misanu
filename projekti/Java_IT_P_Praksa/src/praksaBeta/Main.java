@@ -1,10 +1,10 @@
-package praksa;
+package praksaBeta;
 
 public class Main {
 
 	public static void main(String[] args) {
 
-		// Kreiramo objekat klase Osobe:
+		// Kreira objekat klase Osobe:
 		Osobe o = new Osobe();
 
 		// 1. Podaci o osobama
@@ -12,7 +12,7 @@ public class Main {
 		o.listaPodataka();
 		System.out.println();
 
-		// 2. Štampamo sve poruke osobe Daenerys
+		// 2. Štampa sve poruke osobe Daenerys
 		System.out.print("2. ");
 		o.stampajPoruke("Daenerys");
 
@@ -20,16 +20,13 @@ public class Main {
 		System.out.print("\n3. ");
 		o.brPorukaSvihOsoba();
 
-		// 4 i 5. Analiza Happy/Sad
+		// 4 i 5. Analiza Srećan/Tužan
 		System.out.print("\n4. ");
-		o.sadOrHappy();
+		o.srecanIliTuzan();
 		
-		// 6. Analiza Loving smajlija
+		// 6. Analiza ljubavnih smajlija
 		System.out.println("\n6. Da li Jon voli Daenerys više nego što ona voli njega?\n");
 		o.odmeriLjubav("Jon", "Daenerys");
-		
-		// Sledeća provera bi bila 0:0, ali ako se ubace ljubavni smajli u txt log radi OK.
-		//System.out.println("\nHajde da probamo Tyrion i Daenerys:");
-		//o.odmeriLjubav("Tyrion", "Daenerys");
+
 	}
 }
