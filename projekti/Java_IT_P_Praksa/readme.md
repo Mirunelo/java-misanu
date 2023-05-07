@@ -16,19 +16,12 @@ Opis zadatka: U zadatku se nalazi chat (razmena poruka) između osoba. Sadržaj 
 
     - LOVING: 😍😘
 
-<br>
-
 <div align = center>
 
-[![Button Download]][Download]
+<!-- BEGIN LATEST DOWNLOAD BUTTON -->
+[![Download zip](https://custom-icon-badges.herokuapp.com/badge/-Download-blue?style=for-the-badge&logo=download&logoColor=white "Download zip")](https://github.com/Mirunelo/java-misanu/blob/main/projekti/Java_IT_P_Praksa.zip)
+<!-- END LATEST DOWNLOAD BUTTON -->
 
 </div>
 
 <br>
-<br>
-
-<!---------------------------------------------------------------------------->
-
-[Button Download]: https://github.com/Mirunelo/java-misanu/blob/main/Download.svg
-
-[Download]: https://github.com/Mirunelo/java-misanu/blob/main/projekti/Java_IT_P_Praksa.zip
