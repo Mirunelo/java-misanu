@@ -21,7 +21,7 @@ Vaš zadatak podrazumeva implementaciju sledećih aktivnosti:
 <div align = center>
 
 <!-- BEGIN LATEST DOWNLOAD BUTTON -->
-[![Download zip](https://github.com/Mirunelo/java-misanu/blob/main/Download.svg "Download Java Project")](https://github.com/Mirunelo/java-misanu/raw/main/projekti/Java_IT_P_Praksa.zip)
+[![Download zip](https://github.com/Mirunelo/java-misanu/blob/main/DownloadJ.svg "Download Java Project")](https://github.com/Mirunelo/java-misanu/raw/main/projekti/Java_IT_P_Praksa.zip)
 <!-- END LATEST DOWNLOAD BUTTON -->
 
 </div>
