@@ -19,7 +19,7 @@
 
 <!-- BEGIN LATEST DOWNLOAD BUTTONS -->
 [![Download zip](https://github.com/Mirunelo/java-misanu/blob/main/DownloadJ.svg "Download Java Project")](https://github.com/Mirunelo/java-misanu/raw/main/projekti/Praksa_2_Biblioteka/Java_MySQL_IT_P_Praksa.zip)
-[![Download sql](https://github.com/Mirunelo/java-misanu/blob/main/DownloadS.svg "Download SQL Script")](https://github.com/Mirunelo/java-misanu/tree/main/projekti/Praksa_2_Biblioteka/SQL_Deo)
+[![Download sql](https://github.com/Mirunelo/java-misanu/blob/main/DownloadS.svg "Download SQL Script")](https://github.com/Mirunelo/java-misanu/raw/main/projekti/Praksa_2_Biblioteka/SQL_Deo.zip)
 <!-- END LATEST DOWNLOAD BUTTONS -->
 
 </div>
