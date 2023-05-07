@@ -16,3 +16,19 @@ Opis zadatka: U zadatku se nalazi chat (razmena poruka) između osoba. Sadržaj 
 
     - LOVING: 😍😘
 
+<br>
+
+<div align = center>
+
+[![Button Download]][Download]
+
+</div>
+
+<br>
+<br>
+
+<!---------------------------------------------------------------------------->
+
+[Button Download]: https://img.shields.io/badge/Shield_Buttons-37a779?style=for-the-badge
+
+[Download]: https://github.com/Mirunelo/java-misanu/blob/main/projekti/Java_IT_P_Praksa.zip
