@@ -1,6 +1,8 @@
 # Naziv zadatka: Projekat prakse
 
-Opis zadatka: U zadatku se nalazi chat (razmena poruka) između osoba. Sadržaj chat-a možete naći u folderu Resources. Vaš zadatak podrazumeva implementaciju sledećih aktivnosti:
+Opis zadatka: U zadatku se nalazi chat (razmena poruka) između osoba. Sadržaj chat-a možete naći u folderu Resources.
+
+Vaš zadatak podrazumeva implementaciju sledećih aktivnosti:
 
 1. Kreirajte klasu osoba koja sadrži podatke za svaku osobu u got_meta_data.txt datoteci.
 2. Odštampajte sve poruke osobe Daenerys.
